@@ -4,10 +4,10 @@ import { red } from '@mui/material/colors';
 export const lilaTheme = createTheme({
     palette: {
         primary: {
-            main: '#d64bff',
+            main: '#a87bc7',
         },
         secondary: {
-            main: '#e488ff', // Pink
+            main: '#f1d7ff', // Pink
         },
         error: {
             main: red.A400, // Red
