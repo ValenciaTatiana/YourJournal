@@ -29,3 +29,7 @@ export const singInWithGoogle = async () => {
         }
     }
 }
+
+export const registerUserWithEmailPassword = ({ email, password, name }) => {
+
+}
