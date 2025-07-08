@@ -5,28 +5,36 @@ import Grid from '@mui/material/Grid';
 import { AuthLayout } from '../layout/AuthLayout';
 import { useForm } from '../../hooks/useForm';
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { startCreatingUserWithEmailPassword } from '../../store/auth/index';
+
+const formData = {
+    email: '',
+    password: '',
+    displayName: ''
+}
 
 const formValidations = {
     email: [(value) => value.includes('@'), 'El correo debe tener un @'],
     password: [(value) => value.length >= 6, 'El password debe contener almenos 6 caracteres'],
-    name: [(value) => value.length >= 1, 'El nombre es obligatorio']
+    displayName: [(value) => value.length >= 1, 'El nombre es obligatorio']
 }
 
 export const RegisterPage = () => {
 
+    const dispatch = useDispatch();
+
     const [formSubmitted, setFormSubmitted] = useState(false);
 
-    const { name, email, password, onInputChange, isFormValid, nameValid, emailValid, passwordValid } = useForm({
-        name: '',
-        email: '',
-        password: ''
-    }, formValidations);
+    const { formState, displayName, email, password, onInputChange, isFormValid, nameValid, emailValid, passwordValid } = useForm(formData, formValidations);
 
     const onSubmit = (event) => {
         event.preventDefault();
         setFormSubmitted(true);
 
-        if(!isFormValid) return;
+        if (!isFormValid) return;
+
+        dispatch(startCreatingUserWithEmailPassword(formState));
     }
 
     return (
@@ -37,17 +45,17 @@ export const RegisterPage = () => {
                     <Grid container>
 
                         <Grid size={{ xs: 12 }} sx={{ mt: 2 }}>
-                            <TextField label="Nombre" type="text" placeholder="Nombre" fullWidth autoComplete="nombre" name='name' value={name} onChange={onInputChange} error={!!nameValid && formSubmitted} helperText={nameValid}/>
+                            <TextField label="Nombre" type="text" placeholder="Nombre" fullWidth autoComplete="nombre" name='displayName' value={displayName} onChange={onInputChange} error={!!nameValid && formSubmitted} helperText={nameValid} />
                         </Grid>
 
                         <Grid size={{ xs: 12 }} sx={{ mt: 2 }}>
-                            <TextField label="Email" type="email" placeholder="Correo@correo.com" fullWidth autoComplete="email" name='email' value={email} onChange={onInputChange} error={!!emailValid && formSubmitted} helperText={emailValid}/>
+                            <TextField label="Email" type="email" placeholder="Correo@correo.com" fullWidth autoComplete="email" name='email' value={email} onChange={onInputChange} error={!!emailValid && formSubmitted} helperText={emailValid} />
                         </Grid>
 
                     </Grid>
 
                     <Grid size={{ xs: 12 }} sx={{ mt: 2 }}>
-                        <TextField label="Password" type="password" placeholder="Password" fullWidth autoComplete="current-password" name='password' value={password} onChange={onInputChange} error={!!passwordValid && formSubmitted} helperText={passwordValid}/>
+                        <TextField label="Password" type="password" placeholder="Password" fullWidth autoComplete="current-password" name='password' value={password} onChange={onInputChange} error={!!passwordValid && formSubmitted} helperText={passwordValid} />
                     </Grid>
 
                     <Grid container spacing={2} sx={{ mb: 2, mt: 1 }}>
