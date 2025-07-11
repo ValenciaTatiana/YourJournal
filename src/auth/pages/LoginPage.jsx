@@ -9,28 +9,30 @@ import { startLoginWithEmailPassword, startGoogleSignIn } from '../../store/auth
 import { useDispatch, useSelector } from 'react-redux';
 import { useMemo } from 'react';
 
+const formData = {
+  email: '',
+  password: '',
+}
+
 export const LoginPage = () => {
 
-  const {status, errorMessage} = useSelector(state => state.auth);
+  const { status, errorMessage } = useSelector(state => state.auth);
 
   const dispatch = useDispatch();
 
-  const {email, password, onInputChange} = useForm({
-    email: '',
-    password: '',
-  });
+  const { email, password, onInputChange } = useForm(formData);
 
   const isAuthenticating = useMemo(() => status === 'checking', [status])
 
   const onSubmit = (event) => {
     event.preventDefault();
-    dispatch(startLoginWithEmailPassword({email, password}));
+    dispatch(startLoginWithEmailPassword({ email, password }));
   }
 
   const onGoogleSignIn = () => {
     dispatch(startGoogleSignIn());
   }
-  
+
   return (
     <>
       <AuthLayout title="Login">
@@ -38,19 +40,19 @@ export const LoginPage = () => {
         <form onSubmit={onSubmit} className='animate__animated animate__fadeIn animate__faster'>
           <Grid container>
             <Grid size={{ xs: 12 }} sx={{ mt: 2 }}>
-              <TextField label="Email" type="email" name='email' placeholder="Correo@correo.com" fullWidth autoComplete="email" value={email} onChange={onInputChange}/>
+              <TextField label="Email" type="email" name='email' placeholder="Correo@correo.com" fullWidth autoComplete="email" value={email} onChange={onInputChange} />
             </Grid>
           </Grid>
 
           <Grid size={{ xs: 12 }} sx={{ mt: 2 }}>
-            <TextField label="Password" type="password" name='password' placeholder="Password" fullWidth autoComplete="current-password" value={password} onChange={onInputChange}/>
+            <TextField label="Password" type="password" name='password' placeholder="Password" fullWidth autoComplete="current-password" value={password} onChange={onInputChange} />
           </Grid>
 
           <Grid container spacing={2} sx={{ mb: 2, mt: 1 }}>
             <Grid size={{ xs: 12 }} display={!!errorMessage ? '' : 'none'}>
-                <Alert severity='error'>
-                    {errorMessage}
-                </Alert>
+              <Alert severity='error'>
+                {errorMessage}
+              </Alert>
             </Grid>
             <Grid size={{ xs: 12, sm: 6 }}>
               <Button type='submit' variant='contained' fullWidth disabled={isAuthenticating}>
