@@ -1,12 +1,12 @@
 import Grid from '@mui/material/Grid';
 import { Button, IconButton, TextField, Typography } from '@mui/material';
-import { SaveOutlined, UploadOutlined } from '@mui/icons-material';
+import { DeleteOutline, SaveOutlined, UploadOutlined } from '@mui/icons-material';
 import { ImageGallery } from '../components/index';
 
 import { useDispatch, useSelector } from "react-redux";
 import { useForm } from "../../hooks/index";
 import { useEffect, useMemo, useRef } from 'react';
-import { setActiveNote, startSaveNote, startUploadingFiles } from '../../store/journal/index';
+import { setActiveNote, startSaveNote, startUploadingFiles, startDeletingNote } from '../../store/journal/index';
 
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.css';
@@ -44,6 +44,9 @@ export const NoteView = () => {
         dispatch(startUploadingFiles(target.files))
     };
 
+    const onDelete = () => {
+        dispatch(startDeletingNote());
+    }
     return (
         <>
             <Grid container direction="row" justifyContent="space-between" sx={{ mb: 1 }}>
@@ -67,6 +70,12 @@ export const NoteView = () => {
                 </Grid>
                 <Grid container width='100%'>
                     <TextField type='text' variant='filled' fullWidth multiline placeholder='¿Qué sucedio el día de hoy?' minRows={5} name='body' value={body} onChange={onInputChange} />
+                </Grid>
+
+                <Grid container justifyContent='end'>
+                    <Button onClick={onDelete} sx={{mt: 2}} color='error'>
+                        <DeleteOutline/> Borrar
+                    </Button>
                 </Grid>
 
                 <ImageGallery images={note.imageUrls}/>
