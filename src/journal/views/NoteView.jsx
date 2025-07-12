@@ -69,7 +69,7 @@ export const NoteView = () => {
                     <TextField type='text' variant='filled' fullWidth multiline placeholder='¿Qué sucedio el día de hoy?' minRows={5} name='body' value={body} onChange={onInputChange} />
                 </Grid>
 
-                <ImageGallery />
+                <ImageGallery images={note.imageUrls}/>
             </Grid>
         </>
     )
